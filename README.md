@@ -1,136 +1,209 @@
-# Library Management System - SQL Project
+# Library Management System
 
-A comprehensive database management system for libraries, designed to efficiently manage books, members, staff, and transaction records.
+A comprehensive SQL-based Library Management System that manages branches, employees, customers, books, and issue/return transactions.
 
-## 📚 Project Overview
+## 📚 Overview
 
-This Library Management System is a SQL-based project developed as part of the **Entri Course - Data Science and Machine Learning** program. The project demonstrates the practical application of database design principles, SQL queries, and data management techniques essential for real-world library operations.
+This project implements a relational database system for managing library operations across multiple branches. It tracks book inventory, customer registrations, book issues and returns, employee information, and branch details.
 
-## 🎯 Objectives
+## 🗄️ Database Structure
 
-- Design and implement a normalized relational database for library management
-- Perform CRUD operations (Create, Read, Update, Delete) on library data
-- Execute complex SQL queries to extract meaningful insights
-- Manage relationships between books, members, staff, and transactions
-- Generate reports for library administration
+### Tables
 
-## 🗂️ Database Schema
+1. **BRANCH** - Library branch information
+   - Branch_no (Primary Key)
+   - Manager_Id
+   - Branch_address
+   - Contact_no
 
-The database consists of multiple tables to manage:
+2. **EMPLOYEE** - Employee details
+   - Emp_Id (Primary Key)
+   - Branch_no (Foreign Key)
+   - Emp_name
+   - Position
+   - Salary
 
-- **Books**: Book inventory with details like title, author, ISBN, genre, and availability
-- **Members**: Library member information and membership details
-- **Staff**: Employee records and roles
-- **Transactions**: Book issue and return records
-- **Categories/Genres**: Book classification system
+3. **CUSTOMER** - Customer registration data
+   - Customer_Id (Primary Key)
+   - Customer_name
+   - Customer_address
+   - Reg_date
 
-## ✨ Key Features
+4. **BOOKS** - Book inventory
+   - ISBN (Primary Key)
+   - Book_title
+   - Rental_Price
+   - Category
+   - Status (availability)
+   - Author
+   - Publisher
 
-- **Book Management**: Add, update, and track books in the library inventory
-- **Member Management**: Register and manage library member accounts
-- **Transaction Tracking**: Record book issues and returns with timestamps
-- **Search Functionality**: Query books by title, author, genre, or availability
-- **Report Generation**: Generate reports on popular books, overdue items, and member activity
-- **Data Integrity**: Implemented foreign key constraints and data validation
+5. **ISSUESTATUS** - Book issue tracking
+   - Issue_Id (Primary Key)
+   - Issued_cust (Foreign Key)
+   - Issued_book_name
+   - Issue_date
+   - Isbn_book (Foreign Key)
 
-## 🛠️ Technologies Used
+6. **RETURNSTATUS** - Book return tracking
+   - Return_Id (Primary Key)
+   - Return_cust
+   - Return_book_name
+   - Return_date
+   - Isbn_book2 (Foreign Key)
 
-- **Database**: MySQL / PostgreSQL / SQL Server
-- **Language**: SQL (Structured Query Language)
-- **Tools**: MySQL Workbench / pgAdmin / SQL Server Management Studio
+## 🚀 Features
 
-## 📋 SQL Operations Demonstrated
+### Data Management
+- **10 Library Branches** across major Indian cities (Chennai, Goa, Bangalore, Cochin, Hyderabad, Pune, Jaipur, Ahmedabad, Lucknow, Kolkata)
+- **20 Employees** with various positions and salary structures
+- **20 Customers** with registration tracking
+- **23 Books** across multiple categories (Fiction, Science Fiction, Romance, Classic, Fantasy, Philosophy, History, Malayalam Literature, Mystery)
+- **20 Issue Records** and **10 Return Records**
 
-### Basic Operations
-- CREATE TABLE statements for database structure
-- INSERT queries for data population
-- SELECT queries with WHERE, ORDER BY, and GROUP BY clauses
-- UPDATE and DELETE operations
+### Query Capabilities
 
-### Advanced Operations
-- JOIN operations (INNER, LEFT, RIGHT)
-- Subqueries and nested queries
-- Aggregate functions (COUNT, SUM, AVG, MAX, MIN)
-- String functions and date operations
-- Views creation for complex queries
-- Stored procedures (if applicable)
+The system includes pre-built queries for:
 
-## 📊 Sample Queries
+1. **Available Books Query** - Lists all available books with rental prices and categories
+2. **Employee Salary Report** - Displays employees sorted by salary (descending)
+3. **Customer Book Count** - Shows number of books issued per customer
+4. **Category Statistics** - Counts books in each category
+5. **High Salary Filter** - Lists employees earning above ₹50,000
+6. **Inactive Customer Report** - Identifies customers registered before 2022 with no book issues
+7. **Branch Employee Count** - Shows number of employees per branch
+8. **Monthly Issue Report** - Lists customers who issued books in a specific month (May 2023)
+9. **Category Filter** - Retrieves books by category (History)
+10. **Large Branch Analysis** - Identifies branches with more than 5 employees
 
-Examples of queries implemented in this project:
+## 📊 Sample Data
 
-1. Find all available books in a specific genre
-2. List all overdue books and their borrowers
-3. Count total books issued per member
-4. Identify most popular books by issue count
-5. Search for books by author or title
-6. Generate monthly transaction reports
+### Book Categories
+- Fiction
+- Science Fiction
+- Romance
+- Classic
+- Fantasy
+- Philosophy
+- History
+- Malayalam Literature
+- Mystery
 
-## 🚀 Getting Started
+### Employee Positions
+- Manager
+- Assistant Manager
+- Accountant
+- Sales Executive
+- HR Manager
+- Marketing Executive
+- IT Specialist
+- Customer Service Representative
+- Operations Manager
+- Data Analyst
 
-### Prerequisites
-- MySQL/PostgreSQL installed on your system
-- Basic understanding of SQL syntax
+## 🛠️ Installation & Setup
 
-### Installation
+1. **Prerequisites**
+   - MySQL Server (5.7 or higher recommended)
+   - MySQL Workbench or any SQL client
 
-1. Clone or download the project files
-2. Open your SQL client (MySQL Workbench, pgAdmin, etc.)
-3. Create a new database:
+2. **Database Creation**
    ```sql
-   CREATE DATABASE library_management;
-   USE library_management;
+   CREATE DATABASE LIBRARY;
+   USE LIBRARY;
    ```
-4. Execute the schema creation script to build tables
-5. Run the data insertion script to populate sample data
-6. Execute query files to test functionality
 
-## 📁 Project Structure
+3. **Execute the SQL Script**
+   - Run the `MAIN_PROJECT_SQL.sql` file in your MySQL client
+   - This will create all tables and populate them with sample data
 
-```
-library-management-sql/
-│
-├── schema/
-│   └── create_tables.sql          # Database schema creation
-│
-├── data/
-│   └── insert_data.sql            # Sample data insertion
-│
-├── queries/
-│   ├── basic_queries.sql          # Basic CRUD operations
-│   ├── advanced_queries.sql       # Complex queries and joins
-│   └── reports.sql                # Report generation queries
-│
-└── README.md                       # Project documentation
+## 💡 Usage Examples
+
+### Find Available Books
+```sql
+SELECT BOOK_TITLE, RENTAL_PRICE, CATEGORY 
+FROM BOOKS 
+WHERE STATUS IS TRUE;
 ```
 
-## 🎓 Learning Outcomes
+### Get Employee Salary Report
+```sql
+SELECT EMP_NAME, SALARY 
+FROM EMPLOYEE 
+ORDER BY SALARY DESC;
+```
 
-Through this project, I have gained practical experience in:
+### Find Customers Who Issued Books in May 2023
+```sql
+SELECT C.CUSTOMER_NAME 
+FROM CUSTOMER C 
+INNER JOIN ISSUESTATUS I ON I.ISSUED_CUST = C.CUSTOMER_ID
+WHERE I.ISSUE_DATE < '2023-06-01' 
+  AND I.ISSUE_DATE >= '2023-05-01';
+```
 
-- Designing normalized database schemas
-- Writing efficient SQL queries
-- Managing relationships between tables
-- Implementing data integrity constraints
-- Analyzing and reporting data using SQL
-- Applying database concepts to real-world scenarios
+### Identify Inactive Customers (Registered Before 2022, No Issues)
+```sql
+SELECT DISTINCT customer_Id, Reg_date 
+FROM (
+    SELECT DISTINCT c.customer_Id, c.CUSTOMER_NAME, c.reg_date 
+    FROM CUSTOMER c 
+    WHERE c.Reg_Date < CAST('2022-01-01' AS DATETIME)
+) AS cust 
+LEFT JOIN ISSUESTATUS i ON i.issued_cust = cust.customer_id 
+WHERE i.issued_cust IS NULL;
+```
+
+## 📈 Advanced Features
+
+- **Window Functions** - Used for partitioned counting (books per customer, employees per branch)
+- **Foreign Key Constraints** - Ensures referential integrity with CASCADE delete
+- **Date/Time Tracking** - Precise tracking of registration, issue, and return dates
+- **Boolean Status Flags** - Quick availability checking for books
+
+## 🔐 Database Relationships
+
+- EMPLOYEE.Branch_no → BRANCH.Branch_no (ON DELETE CASCADE)
+- ISSUESTATUS.Issued_cust → CUSTOMER.Customer_Id (ON DELETE CASCADE)
+- ISSUESTATUS.Isbn_book → BOOKS.ISBN (ON DELETE CASCADE)
+- RETURNSTATUS.Isbn_book2 → BOOKS.ISBN (ON DELETE CASCADE)
+
+## 📝 Business Insights
+
+The system can provide insights on:
+- Most popular book categories
+- Branch performance metrics
+- Customer engagement levels
+- Employee salary distribution
+- Book rental revenue analysis
+- Issue/return patterns
+
+## 🤝 Contributing
+
+Feel free to fork this project and submit pull requests for improvements or bug fixes.
+
+## 📄 License
+
+This project is open source and available under the MIT License.
 
 ## 👨‍💻 Author
 
 **Devikrishna545**
 
-Project developed as part of Entri's Data Science and Machine Learning course
+GitHub: [@Devikrishna545](https://github.com/Devikrishna545)
 
-## 📝 License
+Repository: [Library-Management-System](https://github.com/Devikrishna545/Library-Management-System)
 
-This project is created for educational purposes as part of the Entri course curriculum.
+## 📞 Support
 
-## 🙏 Acknowledgments
-
-- Entri Course - Data Science and Machine Learning program
-- Instructors and mentors who guided this project
-- Open-source SQL community for documentation and resources
+For questions or issues, please open an issue in the GitHub repository.
 
 ---
 
-**Note**: This is an educational project demonstrating SQL database management concepts and query writing skills.
+**Note**: This is a demonstration project with sample data. For production use, consider adding:
+- User authentication and authorization
+- Data validation constraints
+- Audit logging
+- Backup and recovery procedures
+- Performance optimization indexes
+- Stored procedures for common operations
